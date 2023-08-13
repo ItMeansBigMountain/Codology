@@ -9,3 +9,14 @@ RUNNING WEBSITE
 MySQL
     mysql --user=root --password=123never
 
+
+
+
+RUNNING FRONT END
+    npm run
+
+
+
+RUNNING BACKEND SERVER
+    cd ./SERVER
+    node run app.js
