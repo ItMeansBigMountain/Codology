@@ -1,0 +1,11 @@
+RUNNING WEBSITE
+    - expo's latest version uses Metro
+    - go to app.json
+        - go to web{} block
+        - add key:value pair...
+            -"bundler": "metro"
+
+
+MySQL
+    mysql --user=root --password=123never
+
