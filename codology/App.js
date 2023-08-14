@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
@@ -10,13 +13,32 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 
 
+// Local Storage
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+
+
+
+
+
+
 // screen navigation init stack
 const Stack = createNativeStackNavigator();
 
 
-
-
 function App() {
+
+  const [userToken, setUserToken] = useState(null);
+
+
+  // Check for token in AsyncStorage when app initializes
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('userToken');
+      setUserToken(token);
+    };
+    checkToken();
+  }, []);
+
 
 
   return (
@@ -25,10 +47,10 @@ function App() {
       {/* creates a stack of screens to navigate through */}
       <Stack.Navigator>
 
-        {/* LOGIN PAGE */}
-        <Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
+        {/* /* LOGIN PAGE */}
+        < Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
 
-        {/* HOMESCREEN PAGE */}
+        {/* /* HOMESCREEN PAGE  */}
         <Stack.Screen name="Home" component={HomeScreen}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: 'darkslateblue' },
@@ -42,7 +64,7 @@ function App() {
               />
             ),
             headerLeft: () => (
-              <Button title="STATS" color="#000000"
+              <Button title="HighScores" color="#000000"
                 onPress={() => console.log("stats!")} />
             ),
           })}

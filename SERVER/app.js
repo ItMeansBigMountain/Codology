@@ -25,7 +25,6 @@ app.use(cors());
 app.use(router);
 
 
-
 // PORT NUMBER
 sequelize.sync(); 
-app.listen(5000);
+app.listen(5000, '0.0.0.0');

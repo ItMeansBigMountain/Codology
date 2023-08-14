@@ -22,7 +22,7 @@ const HomeScreen = () => {
             <View style={styles.containerMain}>
 
                 <Text>
-                    testing...
+                    this is a demontration of my code ....
                 </Text>
 
             </View>

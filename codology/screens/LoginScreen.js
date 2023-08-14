@@ -1,14 +1,21 @@
 // react modules
 import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 // // DEVICE INFO
 // import DeviceInfo from 'react-native-device-info';
 // import { getUniqueId, getManufacturer } from 'react-native-device-info';
 
 
-const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://localhost:5000';
+// const API_URL = Platform.OS === 'ios' ? 'http://192.168.1.94:5000' : 'http://localhost:5000';
+const API_URL = 'http://192.168.1.94:5000';
+
 
 
 
@@ -47,6 +54,13 @@ const LoginScreen = () => {
                     const jsonRes = await res.json();
                     if (res.status === 200) {
                         setMessage(jsonRes.message);
+
+                        // Save the token to AsyncStorage
+                        await AsyncStorage.setItem('userToken', token);
+
+                        // Navigate to the main screen 
+                        navigation.navigate('Home');
+
                     }
                 } catch (err) {
                     console.log(err);
@@ -144,12 +158,12 @@ const LoginScreen = () => {
                         {!isLogin && <TextInput style={styles.input} placeholder="Phone Number" onChangeText={setPhoneNumber}></TextInput>}
                         <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" onChangeText={setPassword}></TextInput>
                         <Text style={[styles.message, { color: isError ? 'red' : 'green' }]}>{message ? getMessage() : null}</Text>
-                        <TouchableOpacity style={styles.button} onPress={onSubmitHandler}>
+                        <Pressable style={styles.button} onPress={onSubmitHandler}>
                             <Text style={styles.buttonText}>Done</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonAlt} onPress={onChangeHandler}>
+                        </Pressable>
+                        <Pressable style={styles.buttonAlt} onPress={onChangeHandler}>
                             <Text style={styles.buttonAltText}>{isLogin ? 'Sign Up' : 'Log In'}</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                     </View>
                 </View>
             </View>
