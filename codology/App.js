@@ -13,11 +13,7 @@ import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 
 
-// Local Storage
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
-
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -27,18 +23,15 @@ const Stack = createNativeStackNavigator();
 
 function App() {
 
-  const [userToken, setUserToken] = useState(null);
-
-
-  // Check for token in AsyncStorage when app initializes
-  useEffect(() => {
-    const checkToken = async () => {
-      const token = await AsyncStorage.getItem('userToken');
-      setUserToken(token);
-    };
-    checkToken();
-  }, []);
-
+  const handleSignOut = async (navigation) => {
+    try {
+      // You'll need to handle the sign-out logic here (e.g., call your auth.signOut())
+      await AsyncStorage.removeItem('userToken'); // Remove token from AsyncStorage
+      navigation.replace("Login"); // Navigate to login screen
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
 
   return (
@@ -47,20 +40,16 @@ function App() {
       {/* creates a stack of screens to navigate through */}
       <Stack.Navigator>
 
-        {/* /* LOGIN PAGE */}
+        {/* LOGIN PAGE */}
         < Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
 
-        {/* /* HOMESCREEN PAGE  */}
+        {/* HOMESCREEN PAGE  */}
         <Stack.Screen name="Home" component={HomeScreen}
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: 'darkslateblue' },
             headerRight: () => (
               <Button title="Sign Out" color="#000000"
-                onPress={() =>
-                  auth
-                    .signOut()
-                    .then(() => { navigation.replace("Login") })
-                    .catch(error => { alert(error.message) })}
+                onPress={() => handleSignOut(navigation)}
               />
             ),
             headerLeft: () => (

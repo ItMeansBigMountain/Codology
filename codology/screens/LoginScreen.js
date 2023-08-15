@@ -132,12 +132,15 @@ const LoginScreen = () => {
 
 
     // on render, check if user is logged in or not
-    useEffect(
-        () => {
-
-        }, []
-    )
-
+    useEffect(() => {
+        const checkToken = async () => {
+            const token = await AsyncStorage.getItem('userToken');
+            if (token) {
+                navigation.replace('Home'); // Navigate to the Home screen if the token exists
+            }
+        };
+        checkToken();
+    }, []);
 
 
 
