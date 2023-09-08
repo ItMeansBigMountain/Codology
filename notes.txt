@@ -20,3 +20,17 @@ RUNNING FRONT END
 RUNNING BACKEND SERVER
     cd ./SERVER
     node run app.js
+
+
+
+
+SETTING UP EXPO-REACT_NATIVE
+    mkdir PROJECT_NAME
+    cd PROJECT_NAME
+    npx create-expo-app PROJECT_NAME
+
+    npm install @react-navigation/native
+    expo install react-native-screens react-native-safe-area-context
+    npm install @react-navigation/native-stack
+    install expo-image-picker
+
