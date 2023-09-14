@@ -28,7 +28,6 @@ const signup = (req, res, next) => {
                             phonenumber: req.body.phonenumber,
                             username: req.body.username,
                         }))
-
                             .then(() => {
                                 res.status(200).json({ message: "user created" });
                             })

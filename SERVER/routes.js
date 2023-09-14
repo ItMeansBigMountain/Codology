@@ -1,10 +1,14 @@
 const express = require('express');
 const { signup, login, isAuth } = require('./auth.js');
+const { addHighScore , displayHighScores} = require('./highscore.js');
 
 
 
 
 const router = express.Router();
+
+router.get('/highscores', displayHighScores);
+router.post('/add-highscore', addHighScore);
 
 router.post('/login', login);
 

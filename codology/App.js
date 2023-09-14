@@ -14,6 +14,7 @@ import HomeScreen from './screens/HomeScreen';
 
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import HighScoreScreen from './screens/HighScoreScreen';
 
 
 
@@ -58,6 +59,9 @@ function App() {
             ),
           })}
         />
+
+        {/* HIGH SCORES PAGE */}
+        < Stack.Screen name="HighScores" options={{ headerShown: false }} component={HighScoreScreen} />
 
       </Stack.Navigator>
 

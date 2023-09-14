@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
+// FETCH URL CALLS
+import axios from 'axios';
 
+
+// IN MEMORY DATA 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -25,7 +29,22 @@ const HomeScreen = () => {
         {
             image: require('../assets/icon.png'),
             options: ['JavaScript', 'Python', 'Ruby', 'Java'],
+            correctAnswer: 0,
+        },
+        {
+            image: require('../assets/icon.png'),
+            options: ['JavaScript', 'Python', 'Ruby', 'Java'],
             correctAnswer: 1,
+        },
+        {
+            image: require('../assets/icon.png'),
+            options: ['JavaScript', 'Python', 'Ruby', 'Java'],
+            correctAnswer: 2,
+        },
+        {
+            image: require('../assets/icon.png'),
+            options: ['JavaScript', 'Python', 'Ruby', 'Java'],
+            correctAnswer: 3,
         },
         // ... more questions
     ];
@@ -39,36 +58,24 @@ const HomeScreen = () => {
     };
 
 
-    const endGame = async () => {
-        alert(`Game Over! Your score is: ${score}`);
+    const endGame = async (score, time) => {
+        try {
+            const highScoreData = {
+                username: "sosai", // Replace with actual username
+                score: score,
+                time: time
+            };
 
-        // Fetch the username from AsyncStorage or from the state where it's stored
-        const username = await AsyncStorage.getItem('username');
+            const response = await axios.post(`${API_URL}/add-highscore`, highScoreData);
 
-        // Create the payload
-        const payload = {
-            username,
-            score,
-        };
-
-        // Submit the score to the backend
-        fetch(`${API_URL}/highscores`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                // Handle the response from the backend
-                // Redirect to the highscores component
-                navigation.navigate('HighScores');
-            })
-            .catch((error) => {
-                console.error('Error submitting score:', error);
-            });
+            if (response.status === 200) {
+                console.log("High score successfully posted.");
+            }
+        } catch (error) {
+            console.log("Error posting high score:", error);
+        }
     };
+
 
     const handleAnswerSelection = (selectedAnswerIndex) => {
         setSelectedOption(selectedAnswerIndex);
@@ -85,7 +92,7 @@ const HomeScreen = () => {
         if (questionIndex < questions.length - 1) {
             setQuestionIndex(questionIndex + 1);
         } else {
-            endGame();
+            endGame(score, timer);
         }
     };
 
